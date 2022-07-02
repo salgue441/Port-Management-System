@@ -34,7 +34,8 @@ public:
 
 protected:
     int c_id;
-    float c_weight;
+    float c_weight, width = 2.43, hight = 2.59,
+                    length_1 = 6.06, length_2 = 12.2;
     Container_type c_type;
 };
 

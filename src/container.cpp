@@ -21,3 +21,48 @@ float Container::get_weight() { return c_weight; }
 Container_type Container::get_type() { return c_type; }
 
 /* ---- Operator Overloading ---- */
+bool Container::operator==(const Container *other)
+{
+    if (c_id == other->c_id &&
+        c_weight == other->c_weight &&
+        c_type == other->c_type)
+        return true;
+
+    return false;
+}
+
+bool Container::operator==(const Container &other)
+{
+    if (c_id == other.c_id &&
+        c_weight == other.c_weight &&
+        c_type == other.c_type)
+        return true;
+
+    return false;
+}
+
+bool Container::operator<(const Container *other)
+{
+    if (c_type == other->c_type &&
+        c_id < other->c_id)
+        return true;
+
+    else if (c_type != other->c_type &&
+             c_id < other->c_id)
+        return true;
+
+    return false;
+}
+
+bool Container::operator<(const Container &other)
+{
+    if (c_type == other.c_type &&
+        c_id < other.c_id)
+        return true;
+
+    else if (c_type != other.c_type &&
+             c_id < other.c_id)
+        return true;
+
+    return false;
+}
