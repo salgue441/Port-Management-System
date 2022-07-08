@@ -5,6 +5,8 @@
 /* ---- Constructors ---- */
 Container::Container() : c_id(0), c_weight(0.0), c_type(NONE){};
 
+Container::Container(int id, float weight) : c_id(id), c_weight(weight){};
+
 Container::Container(int id, float weight, Container_type type)
     : c_id(id), c_weight(weight), c_type(type){};
 
@@ -87,9 +89,11 @@ bool Container::operator<(const Container &other)
 double Container::get_volume(Container_type type) const
 {
     if (type == LIGHT)
-        return width * length_1 * height;
+        return 2 * (c_width * c_length_short * c_height);
+    else if (type == NONE)
+        return 0.0;
 
-    return width * length_2 * height;
+    return 2 * (c_width * c_length_long * c_height);
 }
 
 /*
@@ -105,9 +109,23 @@ double Container::get_volume(Container_type type) const
 double Container::get_area(Container_type type) const
 {
     if (type == LIGHT)
-        return width * length_1;
+        return c_width * c_length_short;
+    else if (type == NONE)
+        return 0.0;
 
-    return width * length_2;
+    return c_width * c_length_long;
+}
+
+/*
+ * Calculates the rate at which the container is used.
+ * params:
+ *   - type: from the enumerated list.
+ * return:
+ *   - returns the total cost for renting or using the container.
+ */
+double Container::get_cost(Container_type type) const
+{
+    double cost{};
 }
 
 /*

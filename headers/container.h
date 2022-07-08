@@ -34,14 +34,15 @@ public:
     virtual double get_consumption() const = 0;
 
 protected:
-    int c_id;
-    float c_weight, width = 2.43, height = 2.59,
-                    length_1 = 6.06, length_2 = 12.2;
-    Container_type c_type;
+    int c_id{};
+    float c_weight{}, c_width{2.43}, c_height{2.59}, c_length_short{6.06},
+        c_length_long{12.2};
+    Container_type c_type{};
     static inline size_t object_count{};
 
     /* ---- Constructors ---- */
     Container() = default;
+    Container(int, float);
     Container(int, float, Container_type);
     Container(const Container &);          // copy constructor
     Container(const Container *) = delete; // deleted constructor
