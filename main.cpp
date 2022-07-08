@@ -8,12 +8,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <limits> // for numeric_limits<>
+#include <limits>
+#include <string_view>
+#include <optional>
 
 // function prototypes
-void menu();
-void sign_up();
+void start_menu();
 void main_menu();
+void sign_up();
+void access_main(std::string_view, std::string_view,
+                 std::optional<std::string_view> f_username = "",
+                 std::optional<std::string_view> f_password = "");
 int control_user_input(int);
 void instructions();
 void progress_bar();
@@ -43,112 +48,17 @@ auto log_in()
     return user_data{username, password};
 }
 
-// main program
 int main()
 {
-    int menu_choice, main_menu_choice;
+    int menu_choice{}, main_menu_choice{};
     std::fstream in_data("user_credentials.txt", std::ios::in);
     std::string f_username, f_password; // file data
-    bool running = true;
-
-    while (running)
-    {
-        menu();
-        std::cout << "Type the choice you wish to do: ";
-
-        // controlling user input
-        menu_choice = control_user_input(menu_choice);
-
-        switch (menu_choice)
-        {
-        case 1:
-            instructions();
-            break;
-
-        case 2:
-            sign_up();
-            break;
-
-        case 3:
-            // compares the saved credentials
-            if (!in_data)
-                std::cout
-                    << "No such file."
-                    << std::endl;
-            else
-            {
-                // reading file data
-                in_data >> f_username >> f_password;
-                auto [username, password] = log_in();
-
-                if (username == f_username && password == f_password)
-                {
-                    main_menu();
-                    std::cout << "Type the choice you wish to do: ";
-
-                    // controling user input
-                    main_menu_choice = control_user_input(main_menu_choice);
-
-                    switch (main_menu_choice)
-                    {
-                    case 1:
-                        int id_container;
-                        float weight;
-
-                        break;
-
-                    case 2:
-                        break;
-
-                    case 3:
-                        break;
-
-                    case 4:
-                        break;
-
-                    case 5:
-                        break;
-
-                    case 6:
-                        break;
-
-                    case 7:
-                        break;
-
-                    case 8:
-                        std::cout << "Closing program" << std::endl;
-                        sleep(1);
-
-                        std::cout << "Signing Out" << std::endl;
-
-                        sleep(1);
-                        progress_bar();
-                        sleep(0.3);
-
-                        std::cout << "\nExit Complete." << std::endl;
-                        running = false;
-                    }
-                }
-
-                in_data.close();
-            }
-            break;
-
-        case 4:
-            std::cout << "Program exited." << std::endl;
-            running = false;
-            break;
-
-        default:
-            break;
-        }
-    } // end of while conditional
 }
 
 /*
 Shows a simple menu with two options: Sign Up or Log In.
 */
-void menu()
+void start_menu()
 {
     std::cout << "\nWelcome to the Port Management System"
               << std::endl;
@@ -157,9 +67,18 @@ void menu()
 }
 
 /*
-Handles saving the user data into a text file. This file is used
-for comparing credentials later on.
+Shows the main menu of the application.
 */
+void main_menu()
+{
+    std::cout << "\nMAIN MENU" << std::endl;
+    std::cout << "1. Container Types \n2. Ship Types"
+              << "\n3. Port Types \n4. Load Container to Ship"
+              << "\n5. Unload Container from Ship"
+              << "\n6. Sail to new Port \n7. Refuel Ship"
+              << "\n8.Exit program " << std::endl;
+}
+
 void sign_up()
 {
     std::fstream out_data;
@@ -190,17 +109,11 @@ void sign_up()
     }
 }
 
-/*
-Shows the main menu of the application.
-*/
-void main_menu()
+void access_main(std::string_view username,
+                 std::string_view password,
+                 std::optional<std::string_view> f_username,
+                 std::optional<std::string_view> f_password)
 {
-    std::cout << "\nMAIN MENU" << std::endl;
-    std::cout << "1. Container Types \n2. Ship Types"
-              << "\n3. Port Types \n4. Load Container to Ship"
-              << "\n5. Unload Container from Ship"
-              << "\n6. Sail to new Port \n7. Refuel Ship"
-              << "\n8.Exit program " << std::endl;
 }
 
 /*

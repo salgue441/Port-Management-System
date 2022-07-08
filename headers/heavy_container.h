@@ -3,7 +3,7 @@
 
 #include "../src/container.cpp"
 
-class Heavy_Container : public Container
+class Heavy_Container : private Container
 {
 public:
     /* ---- Constructors ---- */
