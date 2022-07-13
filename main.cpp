@@ -113,8 +113,10 @@ int main()
 }
 
 /*
-Shows a simple menu with two options: Sign Up or Log In.
-*/
+ * Shows a simple menu with two options: Sign Up or Log In.
+ * params: no parameters needed
+ * return: no return (void function)
+ */
 void start_menu()
 {
     std::cout << "Welcome to the Port's Management System."
@@ -124,8 +126,10 @@ void start_menu()
 }
 
 /*
-Shows the main menu of the application.
-*/
+ * Shows the main menu of the application.
+ * params: no parameters needed
+ * return: no return (void function)
+ */
 void main_menu()
 {
     std::cout << "\nMAIN MENU" << std::endl;
@@ -136,6 +140,13 @@ void main_menu()
               << "\n8. Exit program " << std::endl;
 }
 
+/*
+ * Handles sensitive user information. Asks the user to type
+ * their new username, password, email, position, and age.
+ * Then, saves this information to a .txt file.
+ * params: no parameters needed.
+ * return: no return (void function)
+ */
 void sign_up()
 {
     std::fstream out_data("user_credentials.txt", std::ios::out);
@@ -196,9 +207,11 @@ void sign_up()
 }
 
 /*
-Controls what the user types. Used in menu() and main_menu()
-user prompts.
-*/
+ * Controls what the user types. Used in menu() and main_menu()
+ * user prompts.
+ * params: choice: type int. The value to be checked.
+ * returns: return choice after controlling the input.
+ */
 int control_user_input(int choice)
 {
     while (!(std::cin >> choice))
@@ -214,11 +227,11 @@ int control_user_input(int choice)
 }
 
 /*
-Creates a progress bar as a visual indicator to the user. Based on
-How to display a progress indicator in pure C/C++
-(cout/printf)? (2013, January 26). Stack Overflow.
-https://stackoverflow.com/questions/14539867/how-to-display-a-progress-indicator-in-pure-c-c-cout-printf
-*/
+ * Creates a progress bar as a visual indicator to the user. Based on
+ * How to display a progress indicator in pure C/C++
+ * (cout/printf)? (2013, January 26). Stack Overflow.
+ * https://stackoverflow.com/questions/14539867/how-to-display-a-progress-indicator-in-pure-c-c-cout-printf
+ */
 void progress_bar()
 {
     float progress = 0.0;
