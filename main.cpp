@@ -10,7 +10,7 @@
 #include <string>
 #include <limits>
 
-#include "src/container.cpp"
+#include "src/heavy_container.cpp"
 
 // function prototypes
 void start_menu();
@@ -52,7 +52,7 @@ int main()
     std::string f_username, f_password; // file data
     bool running{false};
 
-    Container container(800.0, LIQUID);
+    Heavy_container container(3000.0, 150.0, 5000, HEAVY);
 
     start_menu();
     std::cout << "Type the choice you wish to do: ";
@@ -90,7 +90,7 @@ int main()
         switch (main_menu_choice)
         {
         case 1:
-            std::cout << container.get_id();
+            std::cout << container.show_container_data();
 
             break;
 

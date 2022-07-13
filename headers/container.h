@@ -22,7 +22,7 @@ class Container
 {
 public:
     /* ---- Destructors ---- */
-    ~Container() = default;
+    virtual ~Container() = default;
 
     /* ---- Access Methods ---- */
     std::string get_id() const;
@@ -36,30 +36,31 @@ public:
     bool operator<(const Container &);
 
     /* ---- Public Functions ---- */
-    std::string show_needed_space();
-    double get_consumption() const;
+    virtual std::string show_container_data() = 0;
 
 protected:
     const size_t id_size{8};
-    std::string c_id;
-    float c_weight{}, c_width{2.43}, c_height{2.59}, c_length_short{6.06},
-        c_length_long{12.2};
+    int c_rate{};
+    std::string c_id{};
+
+    float c_weight{}, c_width{2.43}, c_height{2.59},
+        c_length_short{6.06}, c_length_long{12.2},
+        c_time;
+
     Container_type c_type{};
     static inline size_t object_count{};
 
-public: // delete
     /* ---- Constructors ---- */
     Container() = default;
-    Container(float);
-    Container(float, Container_type);
+    Container(float, float, int);
+    Container(float, float, int, Container_type);
     Container(const Container &);          // copy constructor
     Container(const Container *) = delete; // deleted constructor
 
-protected: // delete
     /* ---- Protected Functions ---- */
-    double get_volume(Container_type) const;
-    double get_area(Container_type) const;
-    double get_cost(Container_type, float) const;
+    double get_volume() const;
+    double get_area() const;
+    virtual double calc_cost() const = 0;
     char_array charset();
     std::string generated_id();
 };

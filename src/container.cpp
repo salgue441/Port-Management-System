@@ -3,21 +3,26 @@
 #include "../headers/container.h"
 
 /* ---- Constructors ---- */
-Container::Container(float weight) : c_weight(weight)
+Container::Container(float weight, float usage, int rate)
+    : c_weight(weight), c_time(usage), c_rate(rate)
 {
     c_id = generated_id();
 };
 
-Container::Container(float weight, Container_type type)
-    : c_weight(weight), c_type(type)
+Container::Container(float weight, float usage, int rate, Container_type type)
+    : c_weight(weight), c_time(usage), c_type(type), c_rate(rate)
 {
     c_id = generated_id();
 };
 
 Container::Container(const Container &new_container)
 {
+    c_id = generated_id();
+
     c_weight = new_container.c_weight;
     c_type = new_container.c_type;
+    c_id = new_container.c_id;
+    c_rate = new_container.c_rate;
 };
 
 /* ---- Access Methods ---- */
@@ -83,11 +88,11 @@ bool Container::operator<(const Container &other)
  * return:
  *   - the volume of the container
  */
-double Container::get_volume(Container_type type) const
+double Container::get_volume() const
 {
-    if (type == LIGHT)
+    if (c_type == LIGHT)
         return 2 * (c_width * c_length_short * c_height);
-    else if (type == NONE)
+    else if (c_type == NONE)
         return 0.0;
 
     return 2 * (c_width * c_length_long * c_height);
@@ -103,11 +108,11 @@ double Container::get_volume(Container_type type) const
  * return:
  *   - the volume of the container
  */
-double Container::get_area(Container_type type) const
+double Container::get_area() const
 {
-    if (type == LIGHT)
+    if (c_type == LIGHT)
         return c_width * c_length_short;
-    else if (type == NONE)
+    else if (c_type == NONE)
         return 0.0;
 
     return c_width * c_length_long;
@@ -120,12 +125,9 @@ double Container::get_area(Container_type type) const
  * return:
  *   - returns the total cost for renting or using the container.
  */
-double Container::get_cost(Container_type type, float time) const
+double Container::calc_cost() const
 {
-    if (this->get_area(type) > 200.0)
-        return time * 15.0;
-
-    return time * 20.0;
+    return (c_time * get_area());
 }
 
 /*
@@ -175,12 +177,12 @@ std::string Container::generated_id()
 
     /*
     lambda function: ties the non-deterministic distribution from
-    the character set. 
+    the character set.
     */
     auto randchar = [ch_set, &dist, &rng]()
     { return ch_set[dist(rng)]; };
 
-    // container's id 
+    // container's id
     std::string id(id_size, 0);
     std::generate_n(id.begin(), id_size, randchar);
 
@@ -188,20 +190,25 @@ std::string Container::generated_id()
 }
 
 /*
- * Shows the area and volume of the desired container.
- * params: no parameters.
- * return: returns the data stream as a string
+ * Shows the container associated data
+ * params: no parameters needed.
+ * return: returns de data stream as a string.
  */
-std::string Container::show_needed_space()
+std::string Container::show_container_data()
 {
-    std::stringstream needed_space;
+    std::stringstream container_data;
 
-    needed_space << "According to the calculations "
-                 << "based on the container's type, " << c_type
-                 << ", it will take "
-                 << get_area(c_type) << " squared meters from the ship"
-                 << ", and the total volume is: " << get_volume(c_type)
-                 << std::endl;
+    container_data << "Showing the container's technical specifications: "
+                   << "\n - Container's type: " << c_type
+                   << "\n - Container's id: " << c_id
+                   << "\n - Container's rate: " << c_rate << " USD"
+                   << "\n - Container's area: " << get_area()
+                   << " squared meters"
+                   << "\n - Container's capacity: " << get_volume()
+                   << " cubic meters"
+                   << "\n - Time to be used: " << c_time << " hours"
+                   << "\n - Total cost of usage: " << calc_cost() << " USD"
+                   << std::endl;
 
-    return needed_space.str();
+    return container_data.str();
 }
