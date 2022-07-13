@@ -3,28 +3,25 @@
 #include "../headers/container.h"
 
 /* ---- Constructors ---- */
-Container::Container() : c_id(0), c_weight(0.0), c_type(NONE){};
+Container::Container(float weight) : c_weight(weight)
+{
+    c_id = generated_id();
+};
 
-Container::Container(int id, float weight) : c_id(id), c_weight(weight){};
-
-Container::Container(int id, float weight, Container_type type)
-    : c_id(id), c_weight(weight), c_type(type){};
+Container::Container(float weight, Container_type type)
+    : c_weight(weight), c_type(type)
+{
+    c_id = generated_id();
+};
 
 Container::Container(const Container &new_container)
 {
-    c_id = new_container.c_id;
     c_weight = new_container.c_weight;
     c_type = new_container.c_type;
 };
 
-/* ---- Destructor ---- */
-Container::~Container()
-{
-    --object_count;
-}
-
 /* ---- Access Methods ---- */
-int Container::get_id() const { return c_id; }
+std::string Container::get_id() const { return c_id; }
 float Container::get_weight() const { return c_weight; }
 Container_type Container::get_type() const { return c_type; }
 
@@ -123,9 +120,71 @@ double Container::get_area(Container_type type) const
  * return:
  *   - returns the total cost for renting or using the container.
  */
-double Container::get_cost(Container_type type) const
+double Container::get_cost(Container_type type, float time) const
 {
-    double cost{};
+    if (this->get_area(type) > 200.0)
+        return time * 15.0;
+
+    return time * 20.0;
+}
+
+/*
+ * Contains the needed characters for the string.
+ * Based on "How do I create a random
+ * alpha-numeric string in C++?" (Carl, 2012).
+ * https://stackoverflow.com/questions/440133/how-do-i-create-a-random-alpha-numeric-string-in-c
+ * params: no parameters needed
+ * returns: an array of characters
+ */
+char_array Container::charset()
+{
+    return char_array(
+        {'0', '1', '2', '3', '4',
+         '5', '6', '7', '8', '9',
+         'A', 'B', 'C', 'D', 'E', 'F',
+         'G', 'H', 'I', 'J', 'K',
+         'L', 'M', 'N', 'O', 'P',
+         'Q', 'R', 'S', 'T', 'U',
+         'V', 'W', 'X', 'Y', 'Z',
+         'a', 'b', 'c', 'd', 'e', 'f',
+         'g', 'h', 'i', 'j', 'k',
+         'l', 'm', 'n', 'o', 'p',
+         'q', 'r', 's', 't', 'u',
+         'v', 'w', 'x', 'y', 'z'});
+};
+
+/*
+ * Generates the Container's id. Based on "How do I create a random
+ * alpha-numeric string in C++?" (Carl, 2012).
+ * https://stackoverflow.com/questions/440133/how-do-i-create-a-random-alpha-numeric-string-in-c
+ * params: no parameters needed
+ * returns: the container's id
+ */
+
+std::string Container::generated_id()
+{
+    // creating the character set
+    auto ch_set = charset();
+
+    // non-deterministic random number generator
+    std::default_random_engine rng(std::random_device{}());
+
+    // random number "shaper", gives uniformly distributed indices
+    // to the character set
+    std::uniform_int_distribution<> dist(0, ch_set.size() - 1);
+
+    /*
+    lambda function: ties the non-deterministic distribution from
+    the character set. 
+    */
+    auto randchar = [ch_set, &dist, &rng]()
+    { return ch_set[dist(rng)]; };
+
+    // container's id 
+    std::string id(id_size, 0);
+    std::generate_n(id.begin(), id_size, randchar);
+
+    return id;
 }
 
 /*

@@ -2,6 +2,12 @@
 #define CONTAINER_H
 
 #include <sstream>
+#include <string>
+#include <vector>
+#include <random>
+#include <algorithm> // for std::generate_n
+
+typedef std::vector<char> char_array;
 
 typedef enum
 {
@@ -16,10 +22,10 @@ class Container
 {
 public:
     /* ---- Destructors ---- */
-    virtual ~Container() = default;
+    ~Container() = default;
 
     /* ---- Access Methods ---- */
-    int get_id() const;
+    std::string get_id() const;
     float get_weight() const;
     Container_type get_type() const;
 
@@ -31,26 +37,31 @@ public:
 
     /* ---- Public Functions ---- */
     std::string show_needed_space();
-    virtual double get_consumption() const = 0;
+    double get_consumption() const;
 
 protected:
-    int c_id{};
+    const size_t id_size{8};
+    std::string c_id;
     float c_weight{}, c_width{2.43}, c_height{2.59}, c_length_short{6.06},
         c_length_long{12.2};
     Container_type c_type{};
     static inline size_t object_count{};
 
+public: // delete
     /* ---- Constructors ---- */
     Container() = default;
-    Container(int, float);
-    Container(int, float, Container_type);
+    Container(float);
+    Container(float, Container_type);
     Container(const Container &);          // copy constructor
     Container(const Container *) = delete; // deleted constructor
 
+protected: // delete
     /* ---- Protected Functions ---- */
     double get_volume(Container_type) const;
     double get_area(Container_type) const;
-    double get_cost(Container_type) const;
+    double get_cost(Container_type, float) const;
+    char_array charset();
+    std::string generated_id();
 };
 
 #endif //! CONTAINER_H
