@@ -10,8 +10,13 @@ this credentials to access the rest of the program.
 ## Compile & Execute
 This program only runs in the terminal. Compile the program with g++.
 And execute with ./port_system for "Linux-based Systems" and 
-./port_system.exe for Windows Systems.
+./port_system.exe for Windows Systems. 
 ```
-g++ main.cpp -std=c++17 -o port_system
+g++ main.cpp -std=c++20 -o port_system
+./port_system
+```
+or 
+```
+g++ main.cpp -std=c++2a -o port_system
 ./port_system
 ```
