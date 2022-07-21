@@ -7,16 +7,20 @@ Container::Container(float weight, float usage, int rate)
     : c_weight(weight), c_time(usage), c_rate(rate)
 {
     c_id = generated_id();
+    object_count += 1;
 };
 
 Container::Container(float weight, float usage, int rate, Container_type type)
     : c_weight(weight), c_time(usage), c_type(type), c_rate(rate)
 {
     c_id = generated_id();
+    object_count += 1;
 };
 
 Container::Container(const Container &new_container)
 {
+    object_count += 1;
+
     c_id = generated_id();
 
     c_weight = new_container.c_weight;
@@ -25,9 +29,16 @@ Container::Container(const Container &new_container)
     c_rate = new_container.c_rate;
 };
 
+/* ---- Destructor ---- */
+Container::~Container()
+{
+    object_count -= 1;
+}
+
 /* ---- Access Methods ---- */
 std::string Container::get_id() const { return c_id; }
 float Container::get_weight() const { return c_weight; }
+int Container::get_max_time() const { return max_time; }
 Container_type Container::get_type() const { return c_type; }
 
 /* ---- Operator Overloading ---- */
@@ -189,17 +200,50 @@ std::string Container::generated_id()
     return id;
 }
 
-/*
+/**
+ * @brief
+ * Private function. Handles showing the container's type as a string
+ * and not as an index.
+ * @param type
+ * @return constexpr const char*
+ */
+const char *Container::enum_to_string(Container_type type)
+{
+    switch (type)
+    {
+    case Container_type::LIGHT:
+        return "LIGHT";
+
+    case Container_type::HEAVY:
+        return "HEAVY";
+
+    case Container_type::REFRIGERATED:
+        return "REFRIGERATED";
+
+    case Container_type::LIQUID:
+        return "LIQUID";
+
+    case Container_type::NONE:
+        return "NONE";
+
+    default:
+        std::runtime_error("No container exist with this type");
+    }
+
+    return "NONE";
+}
+
+/**
+ * @brief
  * Shows the container associated data
- * params: no parameters needed.
- * return: returns de data stream as a string.
+ * @return std::string
  */
 std::string Container::show_container_data()
 {
     std::stringstream container_data;
 
     container_data << "Showing the container's technical specifications: "
-                   << "\n - Container's type: " << c_type
+                   << "\n - Container's type: " << enum_to_string(c_type)
                    << "\n - Container's id: " << c_id
                    << "\n - Container's rate: " << c_rate << " USD"
                    << "\n - Container's area: " << get_area()

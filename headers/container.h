@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <stdexcept> // for std::runtime_error
 #include <algorithm> // for std::generate_n
 
 typedef std::vector<char> char_array;
@@ -22,11 +23,12 @@ class Container
 {
 public:
     /* ---- Destructors ---- */
-    virtual ~Container() = default;
+    virtual ~Container();
 
     /* ---- Access Methods ---- */
     std::string get_id() const;
     float get_weight() const;
+    int get_max_time() const;
     Container_type get_type() const;
 
     /* ---- Operator overloading ---- */
@@ -40,7 +42,7 @@ public:
 
 protected:
     const size_t id_size{8};
-    int c_rate{};
+    int c_rate{}, max_time{};
     std::string c_id{};
 
     float c_weight{}, c_width{2.43}, c_height{2.59},
@@ -48,7 +50,7 @@ protected:
         c_time;
 
     Container_type c_type{};
-    static inline size_t object_count{};
+    static inline size_t object_count{1};
 
     /* ---- Constructors ---- */
     Container() = default;
@@ -63,6 +65,7 @@ protected:
     virtual double calc_cost() const = 0;
     char_array charset();
     std::string generated_id();
+    const char *enum_to_string(Container_type) noexcept(false);
 };
 
 #endif //! CONTAINER_H
