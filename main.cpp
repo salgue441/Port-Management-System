@@ -11,6 +11,7 @@
 #include <limits>
 
 #include "src/heavy_container.cpp"
+#include "src/light_container.cpp"
 
 // function prototypes
 void start_menu();
@@ -53,6 +54,7 @@ int main()
     bool running{false};
 
     Heavy_container container(3000.0, 150.0, 5000, HEAVY);
+    Light_container container_2(4000.0, 100.0, 4000, LIGHT);
 
     start_menu();
     std::cout << "Type the choice you wish to do: ";
@@ -91,6 +93,8 @@ int main()
         {
         case 1:
             std::cout << container.show_container_data();
+            std::cout << std::endl
+                      << container_2.show_container_data();
 
             break;
 
