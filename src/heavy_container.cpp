@@ -50,6 +50,7 @@ std::string Heavy_container::show_container_data()
                    << "\n - Container's type: " << enum_to_string(c_type)
                    << "\n - Container's id: " << c_id
                    << "\n - Container's rate: " << c_rate << " USD"
+                   << "\n - Container's weight: " << c_weight << " kg"
                    << "\n - Container's area: " << get_area()
                    << " squared meters"
                    << "\n - Container's capacity: " << get_volume()
@@ -60,7 +61,8 @@ std::string Heavy_container::show_container_data()
                    << "\n - Total cost of usage (before safety plan): "
                    << (get_area() * c_time) + c_rate << " USD"
                    << "\n - Total cost of usage (with safety plan): "
-                   << calc_cost() << " USD" << std::endl;
+                   << calc_cost() << " USD"
+                   << std::endl;
 
     return container_data.str();
 }

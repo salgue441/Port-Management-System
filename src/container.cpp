@@ -246,6 +246,7 @@ std::string Container::show_container_data()
                    << "\n - Container's type: " << enum_to_string(c_type)
                    << "\n - Container's id: " << c_id
                    << "\n - Container's rate: " << c_rate << " USD"
+                   << "\n - Container's weight: " << c_weight << " kg"
                    << "\n - Container's area: " << get_area()
                    << " squared meters"
                    << "\n - Container's capacity: " << get_volume()
