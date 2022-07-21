@@ -20,7 +20,7 @@ public:
     std::string show_container_data();
 
 private:
-    float safety_plan = 0.15;
+    float safety_plan{0.15};
 
     /* ---- Private Functions ---- */
     double calc_plan_cost() const;

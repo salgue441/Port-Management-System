@@ -47,7 +47,7 @@ std::string Heavy_container::show_container_data()
     std::stringstream container_data;
 
     container_data << "Showing the container's technical specifications: "
-                   << "\n - Container's type: " << c_type
+                   << "\n - Container's type: " << enum_to_string(c_type)
                    << "\n - Container's id: " << c_id
                    << "\n - Container's rate: " << c_rate << " USD"
                    << "\n - Container's area: " << get_area()
