@@ -12,6 +12,7 @@
 
 #include "src/heavy_container.cpp"
 #include "src/light_container.cpp"
+#include "src/refrigerated_container.cpp"
 
 // function prototypes
 void start_menu();
@@ -55,6 +56,7 @@ int main()
 
     Heavy_container container(3000.0, 150.0, 5000, HEAVY);
     Light_container container_2(4000.0, 100.0, 4000, LIGHT);
+    Refrigerated_container container_3(7000.0, 300.0, 450, REFRIGERATED);
 
     start_menu();
     std::cout << "Type the choice you wish to do: ";
@@ -95,6 +97,8 @@ int main()
             std::cout << container.show_container_data();
             std::cout << std::endl
                       << container_2.show_container_data();
+            std::cout << std::endl
+                      << container_3.show_container_data();
 
             break;
 
